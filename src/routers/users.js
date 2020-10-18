@@ -42,6 +42,16 @@ router.patch('/users/:id', async (req, res) =>{
     }
 })
 
+// get the available menu
+router.get('/menu', async (req, res)=> {
+    try{
+        const menu =  await Menu.find({});
+        res.status(200).send(menu)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+});
+
 
 // making orders
 router.post('/orders', async (req, res)=> {
@@ -57,17 +67,6 @@ router.post('/orders', async (req, res)=> {
 
 
 });
-
-// get the available menu
-router.get('/menu', async (req, res)=> {
-    try{
-        const menu =  await Menu.find({});
-        res.status(200).send(menu)
-    } catch(e) {
-        res.status(500).send(e)
-    }
-});
-
 
 // updating orders
 router.patch('/orders/:id', async (req, res)=> {
@@ -94,6 +93,7 @@ router.patch('/orders/:id', async (req, res)=> {
     }
 
 })
+
 
 // deleting a single order
 router.delete('/orders/:id', async (req, res) =>{
@@ -122,7 +122,7 @@ router.delete('/orders', async (req, res)=> {
     }catch(e) {
         res.status(500).send(e)
     }
-});
+}); 
 
 
 module.exports = router
