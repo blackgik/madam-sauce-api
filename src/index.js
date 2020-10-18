@@ -1,6 +1,7 @@
 const express = require('express');
 require('./db/mongoose');
-const userRoute = require('./routers/users');
+const userRouter = require('./routers/users');
+const adminRouter = require('./routers/admin')
 
 
 // creating my app
@@ -13,7 +14,8 @@ const port = process.env.PORT || 3030;
 app.use(express.json())
 
 // serving up the routes
-app.use(userRoute);
+app.use(userRouter);
+app.use(adminRouter);
 
 
 

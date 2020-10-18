@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/users');
-const Order = require('../models/orders')
+const Order = require('../models/orders');
 const Menu =  require('../models/menu');
 const { update } = require('../models/users');
 const router = new express.Router();
@@ -17,22 +17,19 @@ router.post('/users', async (req, res)=> {
 
 })
 
+
 // making orders
 router.post('/orders', async (req, res)=> {
-    const matchOrder = await Menu.find({});
-    const newOrder = new Order(req.body)
-    const isValid = newOrder.every(choice => matchOrder.includes(choice.name) );
+    
+    const newOrder = new Order(req.body) 
 
-    if (isValid) {
-        try{
-            await newOrder.save();
-            res.status(201).send(newOrder);
-        }catch (e) {
-            res.status(400).send(e)
-        }
-    } else {
-        return res.status(404).send('order is not on the menu')
+    try{
+        await newOrder.save();
+        res.status(201).send(newOrder);
+    }catch (e) {
+        res.status(400).send(e)
     }
+
 
 });
 
@@ -90,7 +87,7 @@ router.delete('/orders/:id', async (req, res) =>{
     }
 });
 
-// deelting all orders that have not been completed
+// deleting all orders that have not been completed
 
 router.delete('/orders', async (req, res)=> {
 
