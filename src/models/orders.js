@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 // creating the model for the menu:
-const Order = mongoose.model({
+const Order = mongoose.model('Order',{
     name : {
-        type: true,
+        type: String,
         required: true,
         trim: true
     },
@@ -17,8 +17,8 @@ const Order = mongoose.model({
 
     completed: {
         type: Boolean,
-        required: true,
-        trim: true
+        default: false,
+        
     }
 })
 

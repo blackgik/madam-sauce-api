@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 // creating a menu schema for the database storage
-const Menu = mongoose.model({
+const Menu = mongoose.model('Menu',{
     name: {
         type: String,
         required: true,
