@@ -17,6 +17,31 @@ router.post('/users', async (req, res)=> {
 
 })
 
+// update user information
+router.patch('/users/:id', async (req, res) =>{
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['name', 'email', 'phone'];
+    const isvalid = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isvalid) {
+        return res.status(400).send({
+            error: 'please enter a valid keyh for updates'
+        })
+    }
+
+    try{
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+
+        if(!user) {
+            return res.status(404).send('user does not exist')
+        }
+
+        res.send(user)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
 
 // making orders
 router.post('/orders', async (req, res)=> {
