@@ -17,6 +17,19 @@ router.post('/users', async (req, res)=> {
 
 })
 
+// user sign-in
+router.post('/users/login', async (req,res)=> {
+    try{
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        res.send(user) 
+    }catch(e) {
+        res.status(400).send({
+            error: 'bad request made on the server'
+        })
+    }
+    
+})
+
 // update user information
 router.patch('/users/:id', async (req, res) =>{
     const updates = Object.keys(req.body);
@@ -25,12 +38,17 @@ router.patch('/users/:id', async (req, res) =>{
 
     if (!isvalid) {
         return res.status(400).send({
-            error: 'please enter a valid keyh for updates'
+            error: 'please enter a valid key for updates'
         })
     }
 
     try{
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+
+        const user = await User.findById(req.params.id);
+
+        updates.forEach(update => user[update] = req.body[update]);
+
+        await user.save()
 
         if(!user) {
             return res.status(404).send('user does not exist')
