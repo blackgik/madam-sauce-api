@@ -10,6 +10,7 @@ const User = mongoose.model ('User',{
 
     email: {
         type: String,
+        unique: true,
         trim: true,
         required:true,
         lowerCase: true,
@@ -18,6 +19,18 @@ const User = mongoose.model ('User',{
                 throw new Error('Email is not valid')
             }
         }
+    },
+    password: {
+        type: String,
+        trim: true,
+        required: true,
+        minlength: 7,
+        validate(value) {
+            if(value.includes('password')) {
+                throw new Errow('password should be uniquen and must not containf password')
+            }
+        }
+        
     },
 
     phone: {
